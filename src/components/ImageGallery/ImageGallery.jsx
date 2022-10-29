@@ -12,12 +12,6 @@ export const ImageGallery = ({ searchImageByName, page, handleMore }) => {
   const [activeImage, setActiveImage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [totalHits, setTotalHits] = useState(0);
-  // state = {
-  //   images: [],
-  //   activeImage: '',
-  //   isLoading: false,
-  //   totalHits: 0,
-  // };
 
   useEffect(() => {
     if (searchImageByName === '') return;
@@ -28,7 +22,7 @@ export const ImageGallery = ({ searchImageByName, page, handleMore }) => {
     // );
 
     const getData = async () => {
-      const data = await getImages(searchImageByName, page);
+      const data = await getImages(searchImageByName);
 
       setImages(data.hits);
       setIsLoading(false);
@@ -49,7 +43,7 @@ export const ImageGallery = ({ searchImageByName, page, handleMore }) => {
       setTotalHits(data.totalHits);
     };
     getData();
-  }, [page]);
+  }, [searchImageByName, page]);
 
   const toggleModal = largeImageURL => {
     if (!largeImageURL) {

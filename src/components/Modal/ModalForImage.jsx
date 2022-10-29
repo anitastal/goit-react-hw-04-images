@@ -11,7 +11,7 @@ export const ModalForImage = ({ toggleModal, largeImageURL, tags }) => {
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, []);
+  });
 
   const onKeyDown = e => {
     if (e.code === 'Escape') {
