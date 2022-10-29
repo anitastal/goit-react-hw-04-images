@@ -1,44 +1,39 @@
 // import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+
 import { Backdrop, Modal } from './Modal.styled';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
-export class ModalForImage extends Component {
-  state = {
-    isOpen: false,
-  };
+export const ModalForImage = ({ toggleModal, largeImageURL, tags }) => {
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown);
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.onKeyDown);
-  }
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, []);
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.onKeyDown);
-  }
-
-  onKeyDown = e => {
+  const onKeyDown = e => {
     if (e.code === 'Escape') {
-      this.props.toggleModal();
+      toggleModal();
     }
   };
 
-  closeModal = e => {
+  const closeModal = e => {
     if (e.currentTarget === e.target) {
-      this.props.toggleModal();
+      toggleModal();
     }
   };
 
-  render() {
-    const { largeImageURL, tags } = this.props;
-    return (
-      <Backdrop onClick={this.closeModal}>
-        <Modal>
-          <img src={largeImageURL} alt={tags} />
-        </Modal>
-      </Backdrop>
-    );
-  }
-}
+  return (
+    <Backdrop onClick={closeModal}>
+      <Modal>
+        <img src={largeImageURL} alt={tags} />
+      </Modal>
+    </Backdrop>
+  );
+};
+
 ModalForImage.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   largeImageURL: PropTypes.string.isRequired,

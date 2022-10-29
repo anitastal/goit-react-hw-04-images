@@ -1,34 +1,32 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Searchbar } from './Searchbar/Searchbar';
 
-export class App extends Component {
-  state = {
-    searchImageByName: '',
-    images: null,
-    page: 1,
-  };
-  handleFormSubmit = searchImageByName => {
-    this.setState({ searchImageByName, page: 1 });
+export const App = () => {
+  const [searchImageByName, setSearchImageByName] = useState('');
+  // const [images, setImages] = useState(null);
+  const [page, setPage] = useState(1);
+
+  const handleFormSubmit = searchImageByName => {
+    setSearchImageByName(searchImageByName);
+    setPage(1);
   };
 
-  handleMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+  const handleMore = () => {
+    setPage(prevPage => prevPage + 1);
   };
 
-  render() {
-    return (
-      <div>
-        <Searchbar onSubmit={this.handleFormSubmit} />
-        <ImageGallery
-          searchImageByName={this.state.searchImageByName}
-          page={this.state.page}
-          handleMore={this.handleMore}
-        />
-        <ToastContainer autoClose={2000} />
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Searchbar onSubmit={handleFormSubmit} />
+      <ImageGallery
+        searchImageByName={searchImageByName}
+        page={page}
+        handleMore={handleMore}
+      />
+      <ToastContainer autoClose={2000} />
+    </div>
+  );
+};
